@@ -13,31 +13,23 @@
 		<h3>Menu</h3>
 		<div class="menu">
 			<router-link to="/" class="button">
-				<span class="material-icons">home</span>
-				<span class="text">Home</span>
+				<span class="material-icons">wallet</span>
+				<span class="text">Portfel</span>
 			</router-link>
-			<router-link to="/about" class="button">
-				<span class="material-icons">description</span>
-				<span class="text">About</span>
-			</router-link>
-			<router-link to="/team" class="button">
-				<span class="material-icons">group</span>
-				<span class="text">Team</span>
-			</router-link>
-			<router-link to="/contact" class="button">
-				<span class="material-icons">email</span>
-				<span class="text">Contact</span>
-			</router-link>
+			<!-- <router-link to="/assets" class="button">
+				<span class="material-icons">add_chart</span>
+				<span class="text">Aktywa</span>
+			</router-link> -->
 		</div>
 
 		<div class="flex"></div>
 		
-		<div class="menu">
+		<!-- <div class="menu">
 			<router-link to="/settings" class="button">
 				<span class="material-icons">settings</span>
 				<span class="text">Settings</span>
 			</router-link>
-		</div>
+		</div> -->
 	</aside>
 </template>
 
