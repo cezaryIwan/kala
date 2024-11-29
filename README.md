@@ -1,2 +1,2 @@
 # kala
-Straightforward portfolio for polish passive investor 
+Straightforward portfolio for polish passive investors
