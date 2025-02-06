@@ -1,0 +1,5 @@
+../fastapi/env/
+../fastapi/__pycache__/
+
+../fastapi/*.env
+../fastapi/*.env.*

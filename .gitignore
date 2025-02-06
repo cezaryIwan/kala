@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 .pnpm-store
+
+/fastapi/__pycache__
+fastapi/.venv/
+fastapi/database/__pycache__/
