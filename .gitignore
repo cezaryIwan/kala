@@ -28,3 +28,5 @@ dist-ssr
 /fastapi/__pycache__
 fastapi/.venv/
 fastapi/database/__pycache__/
+migrations/__pycache__
+migrations/versions/__pycache__
