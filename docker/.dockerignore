@@ -1,5 +1,5 @@
-../fastapi/env/
-../fastapi/__pycache__/
+../server/env/
+../server/__pycache__/
 
-../fastapi/*.env
-../fastapi/*.env.*
+../server/*.env
+../server/*.env.*
