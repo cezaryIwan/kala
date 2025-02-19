@@ -1,9 +1,9 @@
-start: start-docker start-client start-server
+start: start-docker start-server start-client 
 
 start-linux:  start-docker-linux start-client start-server
 
 start-docker:
-	cd docker && docker-compose up
+	cd docker && docker-compose up -d
 start-docker-linux:
 	cd docker && sudo docker-compose up -d
 
