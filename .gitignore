@@ -30,3 +30,4 @@ server/.venv/
 server/database/__pycache__/
 migrations/__pycache__
 migrations/versions/__pycache__
+env
