@@ -1,6 +1,6 @@
 <template>
   <div id="chart">
-    <DoughnutChart :chartData="testData" />
+    <DoughnutChart :chartData="doughnutChartData" />
   </div>
 </template>
 <script>
@@ -16,8 +16,7 @@ export default defineComponent ({
     DoughnutChart
   },
   setup() {
-    const assets = ref([]);
-    const testData = reactive({
+    const doughnutChartData = reactive({
       labels:[],
       datasets: [
         {
@@ -30,16 +29,14 @@ export default defineComponent ({
       try{
         const response = await fetch("http://localhost:8000/wallet")
         const data = await response.json();
-        assets.value = data;
-        testData.labels = assets.value.map((asset)=>asset.type);
-        testData.datasets[0].data = assets.value.map((asset)=>asset.balance);
+        doughnutChartData.labels = data.map((asset)=>asset.type);
+        doughnutChartData.datasets[0].data = data.map((asset)=>asset.balance);
       } catch (error){
         console.error(error);
       }
     }
     fetchAssets();
-    console.log(testData);
-    return {testData};
+    return {doughnutChartData};
   },
 });
 </script>
