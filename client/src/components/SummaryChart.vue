@@ -1,14 +1,13 @@
 <template>
   <div id="chart">
-    <DoughnutChart :chartData="testData" />
+    <DoughnutChart :chartData="doughnutChartData" />
   </div>
 </template>
-
 <script>
-import { defineComponent } from 'vue'
+
+import { defineComponent, ref, reactive } from 'vue'
 import { DoughnutChart } from 'vue-chart-3'
 import { Chart, registerables } from "chart.js"
-
 Chart.register(...registerables)
 
 export default defineComponent ({
@@ -17,19 +16,29 @@ export default defineComponent ({
     DoughnutChart
   },
   setup() {
-    const testData = {
-      labels: ['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre'],
+    const doughnutChartData = reactive({
+      labels:[],
       datasets: [
         {
-          data: [30, 40, 60, 70, 5],
+          data: [],
           backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
         },
       ],
-    };
-
-    return { testData }
-  }
-})
+    });
+    async function fetchAssets(){
+      try{
+        const response = await fetch("http://localhost:8000/wallet")
+        const data = await response.json();
+        doughnutChartData.labels = data.map((asset)=>asset.type);
+        doughnutChartData.datasets[0].data = data.map((asset)=>asset.balance);
+      } catch (error){
+        console.error(error);
+      }
+    }
+    fetchAssets();
+    return {doughnutChartData};
+  },
+});
 </script>
 <style lang="scss">
   
