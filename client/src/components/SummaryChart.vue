@@ -1,11 +1,11 @@
 <template>
   <div id="chart">
-    <DoughnutChart :chartData="doughnutChartData" />
+    <DoughnutChart :chartData="doughnutChartData" :options="doughnutChartOptions" />
   </div>
 </template>
 <script>
 
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { DoughnutChart } from 'vue-chart-3'
 import { Chart, registerables } from "chart.js"
 Chart.register(...registerables)
@@ -25,6 +25,24 @@ export default defineComponent ({
         },
       ],
     });
+
+    const doughnutChartOptions = reactive({
+      plugins: {
+        tooltip: {
+          enabled: true,
+          callbacks: {
+            label: function(tooltipItem){
+              const label = doughnutChartData.labels[tooltipItem.dataIndex];
+              const value = doughnutChartData.datasets[0].data[tooltipItem.dataIndex];
+              const sum = doughnutChartData.datasets[0].data.reduce((acc,current)=>acc+current,0);
+              const percentage = (value/sum * 100).toFixed(2);
+              return `${label}: ${value} (${percentage}%) `;
+            },
+          },
+        },
+      },
+    });
+
     async function fetchAssets(){
       try{
         const response = await fetch("http://localhost:8000/wallet")
@@ -36,7 +54,7 @@ export default defineComponent ({
       }
     }
     fetchAssets();
-    return {doughnutChartData};
+    return {doughnutChartData, doughnutChartOptions};
   },
 });
 </script>
