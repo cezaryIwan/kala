@@ -16,10 +16,10 @@
 				<span class="material-icons">wallet</span>
 				<span class="text">Portfel</span>
 			</router-link>
-			<!-- <router-link to="/assets" class="button">
+			<router-link to="/assets" class="button">
 				<span class="material-icons">add_chart</span>
 				<span class="text">Aktywa</span>
-			</router-link> -->
+			</router-link>
 		</div>
 
 		<div class="flex"></div>

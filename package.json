@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "vue-multiselect": "^3.2.0"
+  }
+}
