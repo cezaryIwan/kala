@@ -1,8 +1,8 @@
 <template>
 <div id="app">
-    <multiselect v-model="value" :options="options" :show-labels="true"></multiselect>
+    <multiselect v-model="chosenAsset" :options="listOfAssets" :show-labels="true"></multiselect>
     <input type ="number" v-model="number" class="nb"/>
-    <button @click="handleButtonClick" class="nb">Add</button>
+    <button @click="handleAssetAdd" class="nb">Add</button>
 </div>
 </template>
 <script>
@@ -11,21 +11,16 @@
     export default{
         components: {
             Multiselect,
-
         },
         setup(){
-            const value = ref('');
-            const options = ref(['bronze','silver','gold','platinum','diamond']);
-            
-            const number = ref(null);
-
-            
-            async function handleButtonClick(){
+            const chosenAsset = ref('bronze');
+            const listOfAssets = ref(['bronze','silver','gold','platinum','diamond']);
+            const balance = ref(null);
+            async function handleAssetAdd(){
                 const newAsset = {
                     type: value.value,
                     balance: parseFloat(number.value)
-                };
-                console.log(newAsset);
+                }
                 try {
                     const response = await fetch('http://localhost:8000/asset/add', {
                         method: "POST",
@@ -36,9 +31,9 @@
                     });
                 } catch (error) {
                     console.error('Error:', error);
-                }
+                }   
             }
-            return {value, options, number, handleButtonClick}
+            return {chosenAsset, listOfAssets, balance, handleAssetAdd}
         }
     }
 
@@ -57,5 +52,4 @@
   -webkit-appearance: none;
   margin: 0;
 }
-
 </style>
