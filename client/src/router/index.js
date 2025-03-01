@@ -10,7 +10,7 @@ const routes = [
         component: Wallet
     },
     {
-        path: '/aktywa',
+        path: '/assets',
         name: 'Assets',
         component: Assets
     }
