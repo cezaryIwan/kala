@@ -34,12 +34,6 @@
                         },
                         body: JSON.stringify(newAsset),
                     });
-                    if (response.ok) {
-                        const data = await response.json();
-                        console.log('Response:', data);  // Logowanie odpowiedzi
-                    } else {
-                        console.error('HTTP Error:', response.status);  // Wykrywanie błędów HTTP
-                    }
                 } catch (error) {
                     console.error('Error:', error);
                 }
