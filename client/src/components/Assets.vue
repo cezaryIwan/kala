@@ -8,6 +8,7 @@
 <script>
     import Multiselect from 'vue-multiselect'
     import { ref } from 'vue'
+    import axios from 'axios'
     export default{
         components: {
             Multiselect,
@@ -16,26 +17,22 @@
             const chosenAsset = ref('bronze');
             const listOfAssets = ref(['bronze','silver','gold','platinum','diamond']);
             const balance = ref(null);
-            async function handleAssetAdd(){
+            function handleAssetAdd(){
                 const newAsset = {
-                    type: value.value,
-                    balance: parseFloat(number.value)
+                    type: chosenAsset.value,
+                    balance: parseFloat(balance.value)
                 }
-                try {
-                    const response = await fetch('http://localhost:8000/asset/add', {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(newAsset),
+                    axios.post('http://localhost:8000/asset/add', newAsset)
+                    .then(response => {
+                        window.alert(`Dodano aktywo: ${response}`);
+                    })
+                    .catch(error => {
+                        window.alert(`Błąd dodawania aktywa: ${error}`);
                     });
-                } catch (error) {
-                    console.error('Error:', error);
-                }   
-            }
+                }
             return {chosenAsset, listOfAssets, balance, handleAssetAdd}
-        }
     }
+}
 
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

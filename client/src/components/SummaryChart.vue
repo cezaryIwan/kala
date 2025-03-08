@@ -8,6 +8,7 @@
 import { defineComponent, reactive } from 'vue'
 import { DoughnutChart } from 'vue-chart-3'
 import { Chart, registerables } from "chart.js"
+import axios from 'axios'
 Chart.register(...registerables)
 
 export default defineComponent ({
@@ -45,7 +46,7 @@ export default defineComponent ({
 
     async function fetchAssets(){
       try{
-        const response = await fetch("http://localhost:8000/wallet")
+        const response = await axios.get("http://localhost:8000/wallet")
         const data = await response.json();
         doughnutChartData.labels = data.map((asset)=>asset.type);
         doughnutChartData.datasets[0].data = data.map((asset)=>asset.balance);
