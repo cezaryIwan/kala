@@ -1,13 +1,14 @@
 <template>
 <div id="app">
     <multiselect v-model="chosenAsset" :options="listOfAssets" :show-labels="true"></multiselect>
-    <input type ="number" v-model="number" class="nb"/>
+    <input type ="number" v-model="balance" class="nb"/>
     <button @click="handleAssetAdd" class="nb">Add</button>
 </div>
 </template>
 <script>
     import Multiselect from 'vue-multiselect'
     import { ref } from 'vue'
+    import axios from 'axios'
     export default{
         components: {
             Multiselect,
@@ -16,26 +17,26 @@
             const chosenAsset = ref('bronze');
             const listOfAssets = ref(['bronze','silver','gold','platinum','diamond']);
             const balance = ref(null);
-            async function handleAssetAdd(){
+            function handleAssetAdd(){
                 const newAsset = {
-                    type: value.value,
-                    balance: parseFloat(number.value)
+                    type: chosenAsset.value,
+                    balance: parseFloat(balance.value)
                 }
-                try {
-                    const response = await fetch('http://localhost:8000/asset/add', {
-                        method: "POST",
+                    axios.post('http://localhost:8000/asset/add', newAsset, {
                         headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(newAsset),
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        window.alert(`Dodano aktywo: ${chosenAsset.value} o wartości ${balance.value}`);
+                    })
+                    .catch(error => {
+                        window.alert(`Błąd: ${error.response ? error.response.data : error.message}`);
                     });
-                } catch (error) {
-                    console.error('Error:', error);
-                }   
-            }
+                }
             return {chosenAsset, listOfAssets, balance, handleAssetAdd}
-        }
     }
+}
 
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
