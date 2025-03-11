@@ -1,7 +1,7 @@
 <template>
 <div id="app">
     <multiselect v-model="chosenAsset" :options="listOfAssets" :show-labels="true"></multiselect>
-    <input type ="number" v-model="number" class="nb"/>
+    <input type ="number" v-model="balance" class="nb"/>
     <button @click="handleAssetAdd" class="nb">Add</button>
 </div>
 </template>
@@ -22,12 +22,16 @@
                     type: chosenAsset.value,
                     balance: parseFloat(balance.value)
                 }
-                    axios.post('http://localhost:8000/asset/add', newAsset)
+                    axios.post('http://localhost:8000/asset/add', newAsset, {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
                     .then(response => {
-                        window.alert(`Dodano aktywo: ${response}`);
+                        window.alert(`Dodano aktywo: ${chosenAsset.value} o wartości ${balance.value}`);
                     })
                     .catch(error => {
-                        window.alert(`Błąd dodawania aktywa: ${error}`);
+                        window.alert(`Błąd: ${error.response ? error.response.data : error.message}`);
                     });
                 }
             return {chosenAsset, listOfAssets, balance, handleAssetAdd}
