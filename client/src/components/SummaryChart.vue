@@ -47,11 +47,11 @@ export default defineComponent ({
     async function fetchAssets(){
       try{
         const response = await axios.get("http://localhost:8000/wallet")
-        const data = await response.json();
+        const data = response.data;
         doughnutChartData.labels = data.map((asset)=>asset.type);
         doughnutChartData.datasets[0].data = data.map((asset)=>asset.balance);
       } catch (error){
-        console.error(error);
+        console.error('axios error: ', error.response ? error.response.data : error.message);
       }
     }
     fetchAssets();
