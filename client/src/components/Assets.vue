@@ -7,6 +7,7 @@
         </div>
         <div class = "assetsContent">
             <div class = "assetsInputs">
+                <multiselect v-model="chosenAsset" :options="listOfAssets" :show-labels="true" :selectLabel="null" :selectedLabel="null" :deselectLabel="null" :allow-empty="false" :placeholder="chosenAsset"></multiselect>
                 <div class="wrapper">
                     <div class="inputDecorator">
                         <label for="balanceInput">Balans</label>
@@ -19,7 +20,6 @@
                         <span class="tooltipText">Tooltip dla balans</span>
                     </div>    
                 </div>     
-            <multiselect v-model="chosenAsset" :options="listOfAssets" :show-labels="true" :selectLabel="null" :selectedLabel="null" :deselectLabel="null" :allow-empty="false" :placeholder="chosenAsset"></multiselect>
             </div>
             <div class="assetsButtons">
                 <button id="cancel"> Anuluj </button>
@@ -66,6 +66,7 @@
 <style>
 
 .assets{
+    justify-items: center;
     display: flex;
     flex-direction: column;
     width: 100vw;
@@ -78,8 +79,8 @@
     align-items:center;
     background-color:bisque;
     padding: 20px 220px;
-        @media screen and (max-width: 1024px) {
-        padding: 20px 100px;      
+        @media(max-width: 1024px) {
+        padding: 20px 100px 20px 146px;  
     }
 }
 .assetsHeader a{
@@ -90,8 +91,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     height: 90vh;
+    padding-top: 30px;
+    
+    @media(max-width: 1024px) {
+        padding-left: 36px;  
+    }
 }
 .assetsInputs{
     display: flex;
@@ -104,7 +109,6 @@
 .wrapper{
     display: flex;
     flex-direction: column;
-    
     width:210px;
     margin: 20px;
 }
