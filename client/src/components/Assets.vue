@@ -11,10 +11,15 @@
                     <div class="inputDecorator">
                         <label for="balanceInput">Balans</label>
                         <input type ="number" v-model="balance" class="nb" id="balanceInput" placeholder="Balans"/>
+                        
                     </div>
-                        <div class="supporting-text"> Tekst pomocniczy dla balans</div>      
+                    <div class="supporting-text"> Tekst pomocniczy dla balans</div>  
+                    <div class="tooltip">
+                        <a class="tooltipIcon"> ? </a>
+                        <span class="tooltipText">Tooltip dla balans</span>
+                    </div>    
                 </div>     
-            <multiselect v-model="chosenAsset" :options="listOfAssets" :show-labels="true" id="assetSelect"></multiselect>
+            <multiselect v-model="chosenAsset" :options="listOfAssets" :show-labels="true" :selectLabel="null" :selectedLabel="null" :deselectLabel="null" :allow-empty="false" :placeholder="chosenAsset"></multiselect>
             </div>
             <div class="assetsButtons">
                 <button id="cancel"> Anuluj </button>
@@ -60,7 +65,6 @@
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 
-
 .assets{
     display: flex;
     flex-direction: column;
@@ -95,10 +99,31 @@
     align-items: center;
     justify-content: center;
     width: 210px;
-    margin: 50px;
+    margin: 20px;
+}
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    
+    width:210px;
+    margin: 20px;
 }
 .assetsInputs input{
     font-size: 30px;
+}
+.tooltip{
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+.tooltipText{
+    visibility:hidden;
+    transform: translateY(-50%);
+    margin-left: 2px;
+}
+.tooltipIcon:hover .tooltipText{
+    visibility:visible;
+    opacity: 1;
 }
 .inputDecorator{
     height: 56px;
@@ -109,11 +134,26 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
-.wrapper{
-    display: flex;
-    flex-direction: column;
+
+.multiselect{
     width:210px;
-    margin: 20px;
+    height:56px;
+}
+.multiselect__single{
+    font-size:30px;
+}
+.multiselect__tags{
+    height:56px;
+    display:flex;
+    align-items:center;
+}
+.assetsButtons{
+    width:30vw;
+    display: flex;
+    justify-content:center;
+}
+.assetsButtons button{
+    margin: 0 10px;
 }
 .supporting-text{
     color:grey;
