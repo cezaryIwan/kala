@@ -6,24 +6,27 @@
             <a href="#"> Surowce </a>
         </v-container>
     </v-app-bar>
-    <v-container class="d-flex flex-column align-center justify-center w-50" style="min-height: calc(80vh - 64px);">
-        <v-container class="d-flex flex-column ">
-            <v-select
-            v-model="chosenAsset"
-            label="Select"
-            :items="listOfAssets"
-            ></v-select>
-            <v-number-input
-            v-model="balance"
-                :reverse="false"
-                controlVariant="default"
-                label="Balance"
-                :precision="2"
-                :min="0"
-                :default="0.00"></v-number-input>
-        </v-container>    
-        <v-container class="d-flex justify-end">
-            <v-btn @click="handleAssetAdd"> Dodaj </v-btn>
+    <v-container class="d-flex flex-row align-center justify-center">
+        <SummaryChart/>
+        <v-container class="d-flex flex-column align-center justify-center w-50 mx-0" style="min-height: calc(80vh - 64px);">
+            <v-container class="d-flex flex-column ">
+                <v-select
+                v-model="chosenAsset"
+                label="Select"
+                :items="listOfAssets"
+                ></v-select>
+                <v-number-input
+                v-model="balance"
+                    :reverse="false"
+                    controlVariant="default"
+                    label="Balance"
+                    :precision="2"
+                    :min="0"
+                    :default="0.00"></v-number-input>
+            </v-container>    
+            <v-container class="d-flex justify-end">
+                <v-btn @click="handleAssetAdd"> Dodaj </v-btn>
+            </v-container>
         </v-container>
     </v-container>
     
@@ -48,6 +51,7 @@
                     })
                     .then(response => {
                         window.alert(`Dodano aktywo: ${chosenAsset.value} o wartości ${balance.value}`);
+                        window.location.reload();
                     })
                     .catch(error => {
                         window.alert(`Błąd: ${error.response ? error.response.data : error.message}`);
