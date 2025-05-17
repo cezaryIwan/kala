@@ -1,9 +1,15 @@
 <template>
     <v-app-bar>
-        <v-container class="d-flex justify-space-between">
-            <a href="#"> Akcje </a>
-            <a href="#"> Obligacje </a>
-            <a href="#"> Surowce </a>
+        <v-container fluid>
+            <v-row class="align-center" no-gutters>
+                <v-spacer />
+                <v-list-item link class="rounded-lg">Akcje</v-list-item>
+                <v-spacer />
+                <v-list-item link class="rounded-lg">Obligacje</v-list-item>
+                <v-spacer />
+                <v-list-item link class="rounded-lg">Surowce</v-list-item>
+                <v-spacer />
+            </v-row>
         </v-container>
     </v-app-bar>
     <v-container class="d-flex flex-row align-center justify-center">
@@ -60,7 +66,6 @@
             return {chosenAsset, listOfAssets, balance, handleAssetAdd}
     }
 }
-
 </script>
 
 <style>
