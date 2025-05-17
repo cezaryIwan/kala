@@ -28,6 +28,8 @@ export default defineComponent ({
     });
 
     const doughnutChartOptions = reactive({
+      responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         tooltip: {
           enabled: true,
@@ -61,7 +63,11 @@ export default defineComponent ({
 </script>
 <style lang="scss">
   
-  chart {
-    position: center;
+#chart {
+    position:center;
+    flex-grow:1;
+    flex-shrink:1;
+    max-width: 400px;
+    max-height: 400px;
   }
 </style>
