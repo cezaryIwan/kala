@@ -1,10 +1,10 @@
 <template>
-    <v-container>
-        <v-navigation-drawer>
-            <v-list-item linkt to="/" title="My Application" subtitle="Vuetify"></v-list-item>
-            <v-divider></v-divider>
-            <v-list-item link to="/wallet" title="Wallet"></v-list-item>
-            <v-list-item link to="/assetadd"title="Add Asset"></v-list-item>
-        </v-navigation-drawer>
-    </v-container>
+  <v-container>
+    <v-navigation-drawer>
+      <v-list-item linkt subtitle="Vuetify" title="My Application" to="/" />
+      <v-divider />
+      <v-list-item link title="Wallet" to="/wallet" />
+      <v-list-item link title="Add Asset"to="/assetadd" />
+    </v-navigation-drawer>
+  </v-container>
 </template>
