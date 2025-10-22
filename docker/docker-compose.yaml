@@ -1,8 +1,9 @@
 version: "3.8"
+
 services:
   db:
     container_name: postgres_container
-    image: postgres
+    image: postgres:16
     restart: always
     environment:
       POSTGRES_USER: root
@@ -10,6 +11,9 @@ services:
       POSTGRES_DB: kala
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4
@@ -19,3 +23,41 @@ services:
       PGADMIN_DEFAULT_PASSWORD: password
     ports:
       - "5050:80"
+    depends_on:
+      - db
+
+  server:
+    container_name: fastapi_server
+    build:
+      context: ../server
+      dockerfile: Dockerfile
+    command: >
+      sh -c "sleep 15 &&  #
+             export PYTHONPATH=/app &&
+             python -m alembic -c /app/alembic.ini upgrade head &&
+             uvicorn main:app --host 0.0.0.0 --port 8000 --reload" 
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://root:password@db:5432/kala
+    volumes:
+      - ../server:/app
+      - ../migrations:/app/migrations
+    depends_on:
+      - db
+
+  client:
+    container_name: vue_client
+    build:
+      context: ../client
+      dockerfile: Dockerfile
+    command: pnpm run dev --host
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../client:/app
+    depends_on:
+      - server
+
+volumes:
+  postgres_data:
