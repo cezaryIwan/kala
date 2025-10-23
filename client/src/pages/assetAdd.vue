@@ -41,10 +41,11 @@
 <script>
   import { ref } from 'vue'
   import axios from 'axios'
+  import { assets } from '../utilities/properties.js'
   export default{
     setup (){
       const chosenAsset = ref('bronze');
-      const listOfAssets = ref(['bronze','silver','gold','platinum','diamond']);
+      const listOfAssets = ref(assets);
       const balance = ref(null);
       function handleAssetAdd (){
         const newAsset = {
