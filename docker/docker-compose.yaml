@@ -32,10 +32,14 @@ services:
       context: ../server
       dockerfile: Dockerfile
     command: >
-      sh -c "sleep 15 &&  #
+      sh -c "sleep 15 &&  # Wait for the database to start
              export PYTHONPATH=/app &&
+             # 1. Generate migrations (Używamy formatu daty dla unikalnego ID)
+             python -m alembic -c /app/alembic.ini revision --autogenerate --rev-id $(date +%Y%m%d%H%M%S) --message auto_migration_user_model &&
+             # 2. Apply not run migrations
              python -m alembic -c /app/alembic.ini upgrade head &&
-             uvicorn main:app --host 0.0.0.0 --port 8000 --reload" 
+             # 3. Start server
+             uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
     ports:
       - "8000:8000"
     environment:
@@ -51,7 +55,7 @@ services:
     build:
       context: ../client
       dockerfile: Dockerfile
-    command: pnpm run dev --host
+    command: pnpm run dev --host --port 5173
     ports:
       - "5173:5173"
     volumes:
