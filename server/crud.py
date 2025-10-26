@@ -1,13 +1,13 @@
 from typing import Optional
 from sqlmodel import Session, select
-from app.models.user import User 
-from app.schemas.user import UserCreate
-from app.core.security import get_password_hash
+from database.models import User 
+from schemas import UserCreate
+from security import get_password_hash
 
 def get_user_by_email(db: Session, email: str) -> Optional[User]:
     return db.exec(select(User).where(User.email == email)).first()
 
-def create_user(db: Session, user: UserCreate) -> User:
+def user(db: Session, user: UserCreate) -> User:
     hashed_password = get_password_hash(user.password)
     
     db_user = User(
@@ -17,6 +17,6 @@ def create_user(db: Session, user: UserCreate) -> User:
     
     db.add(db_user)
     db.commit()
-    db.refresh(db_user)
+    db.refresh(db_user)         
     
     return db_user

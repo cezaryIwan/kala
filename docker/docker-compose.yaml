@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   db:
     container_name: postgres_container
@@ -31,17 +29,19 @@ services:
     build:
       context: ../server
       dockerfile: Dockerfile
+    # 1. Generate migrations
+    # 2. Apply not run migrations
+    # 3. Start server
     command: >
-      sh -c "sleep 15 &&  # Wait for the database to start
-             export PYTHONPATH=/app &&
-             # 1. Generate migrations (Używamy formatu daty dla unikalnego ID)
-             python -m alembic -c /app/alembic.ini revision --autogenerate --rev-id $(date +%Y%m%d%H%M%S) --message auto_migration_user_model &&
-             # 2. Apply not run migrations
-             python -m alembic -c /app/alembic.ini upgrade head &&
-             # 3. Start server
-             uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+      sh -c "sleep 15 && \
+      export PYTHONPATH=/app && \
+      python -m alembic -c /app/alembic.ini revision --autogenerate --rev-id $(date +%Y%m%d%H%M%S) --message auto_migration_user_model && \
+      python -m alembic -c /app/alembic.ini upgrade head && \
+      python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m uvicorn main:app --host 0.0.0.0 --port 8000" 
+      # ZMIANA: Usunięto "-- /usr/local/bin/" i dodano "-m uvicorn"
     ports:
       - "8000:8000"
+      - "5678:5678"
     environment:
       DATABASE_URL: postgresql://root:password@db:5432/kala
     volumes:
