@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI, HTTPException, Response
 from database.models import Asset
 from fastapi.middleware.cors import CORSMiddleware
 from schemas import UserCreate
-from crud import user
+from crud import *
 from security import verify_password, create_access_token
 from fastapi.security import OAuth2PasswordRequestForm
 
@@ -43,14 +43,14 @@ def register_user(
     db: Session = Depends(get_session), 
     user_in: UserCreate
 ):
-    existing_user = user.get_user_by_email(db, email=user_in.email)
+    existing_user = get_user_by_email(db, email=user_in.email)
     if existing_user:
         raise HTTPException(
             status_code=400, 
             detail="Email already registered"
         )
         
-    user.create_user(db=db, user=user_in)
+    create_user(db=db, user=user_in)
     return Response(status_code=201) 
 
 @app.post("/auth/token", tags=["Auth"])
@@ -58,7 +58,7 @@ def login_for_access_token(
     db: Session = Depends(get_session), 
     form_data: OAuth2PasswordRequestForm = Depends()
 ):
-    user = user.get_user_by_email(db, email=form_data.username)
+    user = get_user_by_email(db, email=form_data.username)
     
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(

@@ -7,7 +7,7 @@ from security import get_password_hash
 def get_user_by_email(db: Session, email: str) -> Optional[User]:
     return db.exec(select(User).where(User.email == email)).first()
 
-def user(db: Session, user: UserCreate) -> User:
+def create_user(db: Session, user: UserCreate) -> User:
     hashed_password = get_password_hash(user.password)
     
     db_user = User(

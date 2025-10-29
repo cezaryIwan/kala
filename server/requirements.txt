@@ -17,7 +17,7 @@ typing_extensions==4.12.2
 uvicorn==0.31.0
 psycopg2-binary==2.9.10
 email-validator
-passlib[bcrypt]
+passlib[argon2]
 python-jose[cryptography]
 python-multipart
 debugpy

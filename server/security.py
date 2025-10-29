@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 from jose import jwt
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 
 SECRET_KEY = "TWOJ_SUPER_TAJNY_KLUCZ_JWT_564564"
 ALGORITHM = "HS256"

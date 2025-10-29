@@ -25,7 +25,7 @@ services:
       - db
 
   server:
-    container_name: fastapi_server
+    container_name: server_container
     build:
       context: ../server
       dockerfile: Dockerfile
@@ -51,7 +51,7 @@ services:
       - db
 
   client:
-    container_name: vue_client
+    container_name: client_container
     build:
       context: ../client
       dockerfile: Dockerfile
