@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   db:
     container_name: postgres_container
@@ -27,17 +25,21 @@ services:
       - db
 
   server:
-    container_name: fastapi_server
+    container_name: server_container
     build:
       context: ../server
       dockerfile: Dockerfile
+    # 1. Generate migrations
+    # 2. Apply not run migrations
+    # 3. Start server
     command: >
-      sh -c "sleep 15 &&  #
-             export PYTHONPATH=/app &&
-             python -m alembic -c /app/alembic.ini upgrade head &&
-             uvicorn main:app --host 0.0.0.0 --port 8000 --reload" 
+      sh -c "sleep 15 && \
+      export PYTHONPATH=/app && \
+      python -m alembic -c /app/alembic.ini upgrade head && \
+      python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m uvicorn main:app --host 0.0.0.0 --port 8000"
     ports:
       - "8000:8000"
+      - "5678:5678"
     environment:
       DATABASE_URL: postgresql://root:password@db:5432/kala
     volumes:
@@ -47,17 +49,16 @@ services:
       - db
 
   client:
-    container_name: vue_client
+    container_name: client_container
     build:
       context: ../client
       dockerfile: Dockerfile
-    command: pnpm run dev --host
+    command: pnpm run dev --host --port 5173
     ports:
       - "5173:5173"
     volumes:
       - ../client:/app
-    depends_on:
-      - server
+      - ../shared:/app/shared:ro
 
 volumes:
   postgres_data:
