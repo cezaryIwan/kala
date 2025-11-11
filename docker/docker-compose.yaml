@@ -35,10 +35,8 @@ services:
     command: >
       sh -c "sleep 15 && \
       export PYTHONPATH=/app && \
-      python -m alembic -c /app/alembic.ini revision --autogenerate --rev-id $(date +%Y%m%d%H%M%S) --message auto_migration_user_model && \
       python -m alembic -c /app/alembic.ini upgrade head && \
-      python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m uvicorn main:app --host 0.0.0.0 --port 8000" 
-      # ZMIANA: Usunięto "-- /usr/local/bin/" i dodano "-m uvicorn"
+      python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m uvicorn main:app --host 0.0.0.0 --port 8000"
     ports:
       - "8000:8000"
       - "5678:5678"
@@ -60,8 +58,7 @@ services:
       - "5173:5173"
     volumes:
       - ../client:/app
-    depends_on:
-      - server
+      - ../shared:/app/shared:ro
 
 volumes:
   postgres_data:
