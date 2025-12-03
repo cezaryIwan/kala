@@ -28,8 +28,8 @@
 
 <script setup>
     definePage({
-    meta: {
-        hideNavbar: true
+      meta: {
+          hideNavbar: true
     }
     })
     import { ref } from 'vue'
