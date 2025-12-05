@@ -5,7 +5,7 @@ from database.models import Asset
 from fastapi.middleware.cors import CORSMiddleware
 from schemas import UserCreate
 from crud import *
-from security import verify_password, create_access_token
+from security import verify_password, create_access_token, get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
 
 app = FastAPI()
@@ -19,11 +19,14 @@ app.add_middleware(
 )
 
 @app.get("/wallet")
-def getWallet(session: Session = Depends(get_session)) -> list[Asset]:
+def getWallet(session: Session = Depends(get_session),
+              current_user: str = Depends(get_current_user)) -> list[Asset]:
     return session.exec(select(Asset)).all()
    
 @app.post("/asset/add")
-def addNewAsset(asset: Asset, session: Session = Depends(get_session)) -> Asset:
+def addNewAsset(asset: Asset, 
+                session: Session = Depends(get_session),
+                current_user: str = Depends(get_current_user)) -> Asset:
     if not isinstance(asset, Asset):
         raise HTTPException(status_code=400, detail="Could not map sent asset to Asset model.")
     db_asset = session.exec(select(Asset).where(Asset.type == asset.type)).first()

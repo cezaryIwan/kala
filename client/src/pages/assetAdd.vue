@@ -48,6 +48,7 @@
       const listOfAssets = ref(assets);
       const balance = ref(null);
       function handleAssetAdd (){
+        const token = localStorage.getItem('access_token');
         const newAsset = {
           type: chosenAsset.value,
           balance: parseFloat(balance.value),
@@ -55,6 +56,7 @@
         axios.post('http://localhost:8000/asset/add', newAsset, {
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
           },
         })
           .then(response => {
