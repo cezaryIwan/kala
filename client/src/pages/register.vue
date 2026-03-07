@@ -33,36 +33,19 @@
     }
     })
     import { ref } from 'vue'
-    import axios from 'axios'
     import { useRouter } from 'vue-router'
+    import { register } from '@/services/authService'
     const router = useRouter()
     const email = ref('');
     const password = ref('');
     const confirmPassword = ref('');
-    function handleRegister (){
-        if (password.value !== confirmPassword.value){
-            window.alert('Passwords do not match!');
-            return;
+    const handleRegister = async () => {
+        try{
+          await register(email.value, password.value, confirmPassword.value);
+          router.push('/login')
         }
-        if (password.value.length == 0 || email.value.length == 0){
-            window.alert('Email and Password cannot be empty!');
-            return;
+        catch(error) {
+          window.alert(`Error: ${error.response ? error.response.data : error.message}`);
         }
-        const newUser = {
-            email: email.value,
-            password: password.value,
-        }
-        axios.post('http://localhost:8000/auth/register', newUser, {
-            headers: {
-            'Content-Type': 'application/json',
-            },
-        })
-            .then(response => {
-            window.alert(`Registered user: ${email.value}`);
-            router.push('/login');
-            })
-            .catch(error => {
-            window.alert(`Error: ${error.response ? error.response.data : error.message}`);
-            });
-        }
+      }
 </script>

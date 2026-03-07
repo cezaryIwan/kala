@@ -38,30 +38,25 @@
   </v-container>
 
 </template>
-<script>
+<script setup>
   import { ref } from 'vue'
   import { assets } from '../utilities/properties.js'
   import { addAsset } from '@/services/assetsService.js';
-  export default{
-    setup (){
-      const chosenAsset = ref('bronze');
-      const listOfAssets = ref(assets);
-      const balance = ref(null);
-      async function handleAssetAdd (){
-        const newAsset = {
-          type: chosenAsset.value,
-          balance: parseFloat(balance.value),
-        }
-        try {
-          await addAsset(newAsset);
-          window.alert(`Dodano aktywo: ${chosenAsset.value} o wartości ${balance.value}`);
-          window.location.reload();
-        } catch (error) {
-          window.alert(`Błąd: ${error.response ? error.response.data : error.message}`);
-        }
-      }
-      return { chosenAsset, listOfAssets, balance, handleAssetAdd }
-    },
+  const chosenAsset = ref('bronze');
+  const listOfAssets = ref(assets);
+  const balance = ref(null);
+  async function handleAssetAdd (){
+    const newAsset = {
+      type: chosenAsset.value,
+      balance: parseFloat(balance.value),
+    }
+    try {
+      await addAsset(newAsset);
+      window.alert(`Dodano aktywo: ${chosenAsset.value} o wartości ${balance.value}`);
+      window.location.reload();
+    } catch (error) {
+      window.alert(`Błąd: ${error.response ? error.response.data : error.message}`);
+    }
   }
 </script>
 
