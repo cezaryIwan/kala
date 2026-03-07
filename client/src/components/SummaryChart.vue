@@ -8,7 +8,7 @@
   import { defineComponent, reactive } from 'vue'
   import { DoughnutChart } from 'vue-chart-3'
   import { Chart, registerables } from 'chart.js'
-  import api from '@/plugins/axios'
+import { getWallet } from '@/services/walletService'
   Chart.register(...registerables)
 
   export default defineComponent ({
@@ -48,13 +48,7 @@
 
       async function fetchAssets (){
         try{
-          const token = localStorage.getItem('access_token');
-          const response = await api.get('http://localhost:8000/wallet', {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-          const data = response.data;
+          const data = await getWallet();
           doughnutChartData.labels = data.map(asset=>asset.type);
           doughnutChartData.datasets[0].data = data.map(asset=>asset.balance);
         } catch (error){
