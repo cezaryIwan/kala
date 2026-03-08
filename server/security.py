@@ -37,13 +37,13 @@ def decode_access_token(token: str) -> Dict[str, Any]:
     except ExpiredSignatureError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token wygasł",
+            detail="The token has expired",
             headers={"WWW-Authenticate": "Bearer"},
         )
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Nie można zweryfikować tokena",
+            detail="Couldn't verify the token",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
@@ -53,7 +53,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
     if subject is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Nieprawidłowy token (brak sub)",
+            detail="Invalid token (no sub)",
             headers={"WWW-Authenticate": "Bearer"},
         )
     return str(subject)
